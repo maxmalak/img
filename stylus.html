@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stylus Co-writer</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/z6bp8pyw4rb57o36a45h4baoejuatc23utcxu6b0scfzgbkv/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script SameSite="None; Secure" src="https://cdn.landbot.io/landbot-3/landbot-3.0.0.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWXFXK9EBQ"></script>
+<script>
+   window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QWXFXK9EBQ');
+</script>
+  
+</head>
+
+<body>
+
+<button id="toggleEditor" class="toggle-button">&#9776;</button>
+
+
+  <div class="container">
+
+    <div id="landbot-side">
+      <div id="myLandbot"></div>
+    </div>
+
+    <div id="editor-side">
+
+      <div class="tabs">
+        <button class="tablink active" onclick="openTab(event, 'Editor')">Editor</button>
+        <button class="tablink" onclick="openTab(event, 'Content')">About</button>
+      </div>
+
+      <div id="Editor" class="tabcontent">
+        <textarea id="editor">
+                <h1>Side Text Editor</h1>
+<p>You can use this text editor to draft your writing before submitting.</p>
+ </textarea>
+      </div>
+
+      <div id="Content" class="tabcontent">
+        <iframe src="https://www.test.com" width="618" height="100%" style="border:none;"></iframe>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
+
+<style>
+
+:root {
+    --primary-color: #f4f6ff;
+    --background-color: #f4f6ff;
+    --border-radius: 4px;
+    --primary-font: 'Montserrat', sans-serif;
+    --primary-font-size: 1rem;
+    --secondary-font-size: 0.9rem;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: var(--primary-font);
+    font-size: var(--primary-font-size);
+    color: var(--primary-color);
+    background-color: var(--background-color);
+}
+
+@media only screen and (max-width: 768px) {
+    #editor-side {
+        display: none !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #toggleEditor {
+        display: none !important;
+    }
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    height: 100%;
+}
+
+#landbot-side {
+    flex: 2.6;
+    padding: 0px;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#myLandbot {
+    height: 100%;
+}
+
+#editor-side {
+    flex: 2;
+    padding: 0px;
+    box-sizing: border-box;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.3s, max-width 0.5s ease-in-out;
+    max-width: 50%;
+    overflow-x: hidden;
+    box-shadow: 0 -2px 7px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 0px solid #ddd;
+    background-color: #fcfcfc;
+}
+
+.tablink {
+    padding: 14px 16px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: var(--secondary-font-size);
+    font-weight: bold;
+    width: 50%;
+    color: #1a1b1f;
+}
+
+.tablink.active {
+    border-bottom: 4px solid #454545;
+    color: 1a1b1f;
+}
+
+.tabcontent {
+    display: none;
+    overflow: auto;
+    padding: 0;
+    height: calc(100% - 51px);
+}
+
+.tox-tinymce {
+    border: 0px solid #eee !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+}
+
+
+.mce-content-body {
+    background: #f4f6ff;
+}
+
+.toggle-button {
+    position: fixed;
+    top: 22.5px;
+    right: 3px;
+    z-index: 10;
+    background-image: linear-gradient(to right, #48259e, #6745bf);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+    transform: translateY(-50%) rotate(0deg);
+    transition: transform 0.3s, right 0.3s;
+}
+
+.container.editor-hidden #editor-side {
+    opacity: 0;
+    max-width: 0%;
+}
+
+
+.container.editor-hidden .toggle-button {
+    left: 0;
+    transform: rotate(180deg) translateY(50%);
+}
+  
+.tox .tox-statusbar__resize-handle {
+    display: none !important;
+}
+  
+</style>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    var featureItems = document.querySelectorAll('.feature-item');
+
+    featureItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+            this.classList.toggle('open');
+        });
+    });
+
+    const toggleEditorButton = document.getElementById("toggleEditor");
+    const container = document.querySelector(".container");
+
+    toggleEditorButton.addEventListener("click", function() {
+      container.classList.toggle("editor-hidden");
+    });
+});
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementsByClassName('tablink')[0].click();
+    checkWindowSize();
+});
+
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+const iframeUrl = getParameterByName('iframeSrc');
+if (iframeUrl) {
+    document.querySelector('#Content iframe').src = iframeUrl;
+}
+
+let sessionID;
+try {
+    sessionID = sessionStorage.getItem("uniqueSessionID");
+    if (!sessionID) {
+        sessionID = 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        sessionStorage.setItem("uniqueSessionID", sessionID);
+    }
+} catch (e) {
+    console.error("Cannot access sessionStorage:", e.message);
+    sessionID = 'sess-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+}
+
+tinymce.init({
+    branding: false,
+    menubar: ' ',
+    selector: '#editor',
+    skin: 'borderless',
+    height: '100%',
+    plugins: 'wordcount',
+    toolbar: 'undo redo | styles',
+    content_css: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap',
+    font_formats: 'Montserrat=Montserrat, sans-serif',
+    content_style: `
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+        body {
+            background-color: #f5f5f5;
+            color: #454545;
+            padding: 20px;  /* Added padding here */
+        }
+        p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+        }
+    `,
+});
+  
+window.appendHtmlToEditor = function (htmlContent) {
+    var editorInstance = tinymce.get("editor");
+    
+    // Decode the escaped HTML content
+    var textarea = document.createElement("textarea");
+    textarea.innerHTML = htmlContent;
+    var decodedHTML = textarea.value;
+
+    // Insert the decoded content
+    editorInstance.execCommand('mceInsertContent', false, decodedHTML);
+    return "done";
+}
+
+var myLandbot = new Landbot.Container({
+    container: '#myLandbot',
+    configUrl: 'https://storage.googleapis.com/landbot.pro/v3/H-1737195-TWOZ0ZRW1FWG8CM6/index.json',
+});
+
+    
+function checkWindowSize() {
+    const editorSide = document.getElementById('editor-side');
+    if (window.innerWidth <= 768) {
+        if (editorSide) {
+            editorSide.style.display = 'none';
+        }
+    } else {
+        if (editorSide) {
+            editorSide.style.display = 'block';
+        }
+    }
+}
+    
+let saveButton = document.querySelector("#editor-side > div > div.tox-editor-container > div.tox-editor-header > div.tox-toolbar-overlord > div > div:nth-child(4) > button");
+if (saveButton) {
+    saveButton.style.background = 'linear-gradient(90deg, #3F3FF9, #954DF1)';
+    saveButton.style.color = 'white';
+}
+
+window.addEventListener('resize', checkWindowSize);
+document.addEventListener('DOMContentLoaded', checkWindowSize);
+
+
+
+
+</script>
